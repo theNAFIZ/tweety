@@ -26,8 +26,8 @@
                 @endauth
             </div>
 
-            <img class="rounded-full absolute left-60 top-40" src="{{$user->avatar}}" width="160"
-                 height="160">
+            <img class="rounded-full absolute left-64 top-24 border-4 border-white" src="{{$user->avatar}}"
+                 width="130">
 
             <p class="text-center mx-14">But I must explain to you how all this idea of pleasure and
                 praising pain was born and I will give you an account of the system.</p>

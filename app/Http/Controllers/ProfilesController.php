@@ -30,6 +30,8 @@ class ProfilesController extends Controller
 
     public function update(User $user)
     {
+        $this->authorize('edit', $user);
+
         $attributes = request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'avatar' => ['file'],
@@ -46,5 +48,10 @@ class ProfilesController extends Controller
         return redirect(route('view-profile', $user));
 
 
+    }
+
+    public function explore()
+    {
+        return view('explore', ['users' => User::paginate(10)]);
     }
 }

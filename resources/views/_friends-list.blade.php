@@ -7,6 +7,7 @@
                     <img class="rounded-full mr-2"
                          src="{{$user->avatar}}"
                          alt="avatar"
+                         width="40"
                     />
 
                     {{$user->name}}

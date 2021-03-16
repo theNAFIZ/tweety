@@ -32,7 +32,10 @@ class User extends Authenticatable
 
     public function getAvatarAttribute($value)
     {
-        return asset('storage/' . $value);
+        if ($value)
+            return asset('storage/' . $value);
+
+        return "https://i.pravatar.cc/150?img=2";
     }
 
     public function setPasswordAttribute($value)

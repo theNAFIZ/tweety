@@ -1,10 +1,19 @@
-<h3 class="font-bold text-xl mb-4">Friends</h3>
+<h3 class="font-bold text-xl mb-4">Following</h3>
 <ul>
-    @foreach(range(1,8) as $index)
+    @forelse(auth()->user()->follows as $user)
         <li class="mb-4">
-            <div class="flex items-center">
-                <img class="rounded-full mr-2" src="https://i.pravatar.cc/30" alt="avatar"/>John Doe
-            </div>
+            <a href="{{route('view-profile', $user)}}">
+                <div class="flex items-center">
+                    <img class="rounded-full mr-2"
+                         src="{{$user->avatar}}"
+                         alt="avatar"
+                    />
+
+                    {{$user->name}}
+                </div>
+            </a>
         </li>
-    @endforeach
+    @empty
+        <p>No friends yet!</p>
+    @endforelse
 </ul>

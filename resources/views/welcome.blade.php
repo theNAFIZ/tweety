@@ -18,7 +18,7 @@
     <h1 class="text-6xl m-8">Tweety</h1>
     <div class="items-center 2xl:group-hover:text-blue-300">
         @auth
-            <a href="{{url('/home')}}">Home</a>
+            <a href="{{route('home')}}">Home</a>
         @else
             <a class="m-2" href="{{route('login')}}">Login</a>
             <a class="m-2" href="{{route('register')}}">Register</a>

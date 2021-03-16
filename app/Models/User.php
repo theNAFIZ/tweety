@@ -14,8 +14,10 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'avatar'
     ];
 
     protected $hidden = [
@@ -28,13 +30,57 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAvatarAttribute()
+    public function getAvatarAttribute($value)
     {
-        return "https://i.pravatar.cc/30?u=" . ($this->id - 1);
+        return asset('storage/' . $value);
+    }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
     }
 
     public function timeline()
     {
-        return Tweet::latest()->get();
+        $ids = $this->follows()->pluck('id');
+        $ids = $ids->push($this->id);
+
+        return Tweet::whereIn('user_id', $ids)->latest()->get();
+    }
+
+    public function tweets()
+    {
+        return $this->hasMany(Tweet::class)->latest();
+    }
+
+    public function follow(User $user)
+    {
+        return $this->follows()->save($user);
+    }
+
+    public function unfollow(User $user)
+    {
+        return $this->follows()->detach($user);
+    }
+
+    public function toggleFollow(User $user)
+    {
+        if ($this->isFollowing($user)) {
+            return $this->unfollow($user);
+        }
+
+        return $this->follow($user);
+    }
+
+    public function follows()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id');
+    }
+
+    public function isFollowing(User $user)
+    {
+        return $this->follows()
+            ->where('following_user_id', [$user->id, $this->id])
+            ->exists();
     }
 }

@@ -23,15 +23,31 @@
 <div id="app">
     <section class="px-8 py-4">
         <header class="container mx-auto">
-            <h1>
+            <a href="{{route('home')}}">
                 <img class="h-10 w-10" src="http://naimurnafiz.live/assets/img/logo192.png" alt="icon"/>
-            </h1>
+            </a>
         </header>
-
     </section>
+
     <section>
         <main class="container mx-auto">
-            @yield('content')
+
+            <div class="lg:flex justify-between">
+                @auth
+                    <div class="lg:w-1/6  rounded">
+                        @include('_sidebar-links')
+                    </div>
+                @endauth
+
+                @yield('content')
+
+                @auth
+                    <div class="lg:w-1/6">
+                        @include('_friends-list')
+                    </div>
+                @endauth
+            </div>
+
         </main>
     </section>
 

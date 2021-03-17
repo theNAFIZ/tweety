@@ -25,7 +25,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -47,13 +46,15 @@ class User extends Authenticatable
     {
         $ids = $this->follows()->pluck('id');
         $ids = $ids->push($this->id);
-
-        return Tweet::whereIn('user_id', $ids)->latest()->get();
+        return Tweet::whereIn('user_id', $ids)
+            ->withLikes()
+            ->latest()
+            ->get();
     }
 
     public function tweets()
     {
-        return $this->hasMany(Tweet::class)->latest();
+        return $this->hasMany(Tweet::class)->withLikes()->latest();
     }
 
     public function follow(User $user)
@@ -85,5 +86,10 @@ class User extends Authenticatable
         return $this->follows()
             ->where('following_user_id', [$user->id, $this->id])
             ->exists();
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 }

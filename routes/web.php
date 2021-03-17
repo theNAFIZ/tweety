@@ -21,6 +21,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/tweets', [App\Http\Controllers\TweetController::class, 'index'])->name('home');
     Route::post('/tweets', [App\Http\Controllers\TweetController::class, 'store'])->name('create-tweet');
     Route::get('/explore', [App\Http\Controllers\ProfilesController::class, 'explore'])->name('explore');
+    Route::post('/tweets/{tweet}', [App\Http\Controllers\TweetController::class, 'like'])->name('like-tweet');
+    Route::put('/tweets/{tweet}', [App\Http\Controllers\TweetController::class, 'dislike'])->name('dislike-tweet');
 });
 
 // Profile Routes

@@ -23,4 +23,16 @@ class TweetController extends Controller
 
         return redirect()->route('home');
     }
+
+    public function like(Tweet $tweet)
+    {
+        $tweet->like();
+        return back();
+    }
+
+    public function dislike(Tweet $tweet)
+    {
+        $tweet->dislike();
+        return back();
+    }
 }
